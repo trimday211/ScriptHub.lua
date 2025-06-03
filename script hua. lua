@@ -1,0 +1,62 @@
+-- Script Hub GUI by Trần Tú
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local Title = Instance.new("TextLabel")
+local AutoFarmBtn = Instance.new("TextButton")
+local TeleportBtn = Instance.new("TextButton")
+local ESPBtn = Instance.new("TextButton")
+
+-- Parent GUI
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.Name = "ScriptHubGUI"
+
+-- Frame design
+MainFrame.Size = UDim2.new(0, 300, 0, 250)
+MainFrame.Position = UDim2.new(0.5, -150, 0.5, -125)
+MainFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+MainFrame.Parent = ScreenGui
+
+UICorner.CornerRadius = UDim.new(0, 12)
+UICorner.Parent = MainFrame
+
+-- Title
+Title.Text = "🌀 Anh Ba Script Hub"
+Title.Size = UDim2.new(1, 0, 0, 40)
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextScaled = true
+Title.BackgroundTransparency = 1
+Title.Parent = MainFrame
+
+-- Auto Farm Button
+AutoFarmBtn.Text = "Auto Farm"
+AutoFarmBtn.Size = UDim2.new(0.8, 0, 0, 40)
+AutoFarmBtn.Position = UDim2.new(0.1, 0, 0.25, 0)
+AutoFarmBtn.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
+AutoFarmBtn.TextColor3 = Color3.new(1, 1, 1)
+AutoFarmBtn.Parent = MainFrame
+AutoFarmBtn.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/trimday211/Anh-Ba-Skibidi/main/autofarm.lua"))()
+end)
+
+-- Teleport Button
+TeleportBtn.Text = "Teleport"
+TeleportBtn.Size = UDim2.new(0.8, 0, 0, 40)
+TeleportBtn.Position = UDim2.new(0.1, 0, 0.45, 0)
+TeleportBtn.BackgroundColor3 = Color3.fromRGB(34, 139, 34)
+TeleportBtn.TextColor3 = Color3.new(1, 1, 1)
+TeleportBtn.Parent = MainFrame
+TeleportBtn.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/trimday211/Anh-Ba-Skibidi/main/teleport.lua"))()
+end)
+
+-- ESP Button
+ESPBtn.Text = "ESP"
+ESPBtn.Size = UDim2.new(0.8, 0, 0, 40)
+ESPBtn.Position = UDim2.new(0.1, 0, 0.65, 0)
+ESPBtn.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
+ESPBtn.TextColor3 = Color3.new(1, 1, 1)
+ESPBtn.Parent = MainFrame
+ESPBtn.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/trimday211/Anh-Ba-Skibidi/main/esp.lua"))()
+end)
