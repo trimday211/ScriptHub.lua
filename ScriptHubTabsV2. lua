@@ -1,0 +1,127 @@
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- GUI chính
+local screenGui = Instance.new("ScreenGui", playerGui)
+screenGui.Name = "AnhBaScriptHub"
+
+local mainFrame = Instance.new("Frame", screenGui)
+mainFrame.Size = UDim2.new(0, 400, 0, 300)
+mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
+mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+mainFrame.BorderSizePixel = 0
+
+local uiCorner = Instance.new("UICorner", mainFrame)
+uiCorner.CornerRadius = UDim.new(0, 12)
+
+-- Title
+local title = Instance.new("TextLabel", mainFrame)
+title.Size = UDim2.new(1, 0, 0, 50)
+title.Text = "🌊 Anh Ba Script Hub"
+title.Font = Enum.Font.GothamBold
+title.TextScaled = true
+title.TextColor3 = Color3.new(1, 1, 1)
+title.BackgroundTransparency = 1
+
+-- Button function
+local function createButton(text, position, color, parent)
+	local btn = Instance.new("TextButton", parent)
+	btn.Size = UDim2.new(0.8, 0, 0, 40)
+	btn.Position = position
+	btn.Text = text
+	btn.BackgroundColor3 = color
+	btn.TextColor3 = Color3.new(1, 1, 1)
+	btn.Font = Enum.Font.Gotham
+	btn.TextScaled = true
+	local uic = Instance.new("UICorner", btn)
+	uic.CornerRadius = UDim.new(0, 6)
+	return btn
+end
+
+-- Tạo các khung con
+local autoFarmPanel = Instance.new("Frame", mainFrame)
+autoFarmPanel.Size = UDim2.new(1, 0, 1, -50)
+autoFarmPanel.Position = UDim2.new(0, 0, 0, 50)
+autoFarmPanel.Visible = false
+autoFarmPanel.BackgroundTransparency = 1
+
+local teleportPanel = autoFarmPanel:Clone()
+teleportPanel.Parent = mainFrame
+teleportPanel.Visible = false
+
+local espPanel = autoFarmPanel:Clone()
+espPanel.Parent = mainFrame
+espPanel.Visible = false
+
+-- Button chính
+local autoFarmBtn = createButton("Auto Farm", UDim2.new(0.1, 0, 0, 60), Color3.fromRGB(70, 130, 180), mainFrame)
+local teleportBtn = createButton("Dịch chuyển", UDim2.new(0.1, 0, 0, 110), Color3.fromRGB(34, 139, 34), mainFrame)
+local espBtn = createButton("ESP", UDim2.new(0.1, 0, 0, 160), Color3.fromRGB(178, 34, 34), mainFrame)
+
+-- Ẩn toàn bộ panel
+local function hideAllPanels()
+	autoFarmPanel.Visible = false
+	teleportPanel.Visible = false
+	espPanel.Visible = false
+end
+
+-- Sự kiện bấm nút
+autoFarmBtn.MouseButton1Click:Connect(function()
+	hideAllPanels()
+	autoFarmPanel.Visible = true
+end)
+
+teleportBtn.MouseButton1Click:Connect(function()
+	hideAllPanels()
+	teleportPanel.Visible = true
+end)
+
+espBtn.MouseButton1Click:Connect(function()
+	hideAllPanels()
+	espPanel.Visible = true
+end)
+
+-- Nội dung Panel: Auto Farm
+local labelAF = Instance.new("TextLabel", autoFarmPanel)
+labelAF.Size = UDim2.new(1, 0, 0, 40)
+labelAF.Position = UDim2.new(0, 0, 0, 10)
+labelAF.Text = "⚙️ Tuỳ chọn Auto Farm"
+labelAF.Font = Enum.Font.GothamBold
+labelAF.TextColor3 = Color3.new(1, 1, 1)
+labelAF.TextScaled = true
+labelAF.BackgroundTransparency = 1
+
+local startAFBtn = createButton("Bắt đầu Farm", UDim2.new(0.1, 0, 0, 60), Color3.fromRGB(0, 200, 255), autoFarmPanel)
+startAFBtn.MouseButton1Click:Connect(function()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/trimday211/Anh-Ba-Skibidi/main/autofarm.lua"))()
+end)
+
+-- Nội dung Panel: Teleport
+local labelTP = Instance.new("TextLabel", teleportPanel)
+labelTP.Size = UDim2.new(1, 0, 0, 40)
+labelTP.Position = UDim2.new(0, 0, 0, 10)
+labelTP.Text = "📍 Chọn địa điểm"
+labelTP.Font = Enum.Font.GothamBold
+labelTP.TextColor3 = Color3.new(1, 1, 1)
+labelTP.TextScaled = true
+labelTP.BackgroundTransparency = 1
+
+local islandBtn = createButton("Đến Đảo Chính", UDim2.new(0.1, 0, 0, 60), Color3.fromRGB(60, 220, 60), teleportPanel)
+islandBtn.MouseButton1Click:Connect(function()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/trimday211/Anh-Ba-Skibidi/main/teleport.lua"))()
+end)
+
+-- Nội dung Panel: ESP
+local labelESP = Instance.new("TextLabel", espPanel)
+labelESP.Size = UDim2.new(1, 0, 0, 40)
+labelESP.Position = UDim2.new(0, 0, 0, 10)
+labelESP.Text = "🔍 ESP Tùy chọn"
+labelESP.Font = Enum.Font.GothamBold
+labelESP.TextColor3 = Color3.new(1, 1, 1)
+labelESP.TextScaled = true
+labelESP.BackgroundTransparency = 1
+
+local espPlayerBtn = createButton("ESP Người chơi", UDim2.new(0.1, 0, 0, 60), Color3.fromRGB(255, 100, 100), espPanel)
+espPlayerBtn.MouseButton1Click:Connect(function()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/trimday211/Anh-Ba-Skibidi/main/esp.lua"))()
+end)
