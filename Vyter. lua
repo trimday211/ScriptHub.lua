@@ -1,19 +1,17 @@
--- Vyter Hub by Trần Tú (inspired by Redz Hub)
+-- Vyter Hub by Trần Tú (inspired by redz Hub - Farm tab updated)
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
 local UICorner = Instance.new("UICorner")
 local Title = Instance.new("TextLabel")
-local SpeedBtn = Instance.new("TextButton")
-local InvisibleBtn = Instance.new("TextButton")
-local GodModeBtn = Instance.new("TextButton")
+local FarmBtn = Instance.new("TextButton")
 
 -- Parent GUI
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 ScreenGui.Name = "VyterHubGUI"
 
 -- Main Frame
-MainFrame.Size = UDim2.new(0, 200, 0, 200)
-MainFrame.Position = UDim2.new(0.5, -100, 0.5, -100)
+MainFrame.Size = UDim2.new(0, 200, 0, 150) -- Điều chỉnh kích thước cho 3 tùy chọn
+MainFrame.Position = UDim2.new(0.5, -100, 0.5, -75)
 MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30) -- Màu xám đậm
 MainFrame.Parent = ScreenGui
 
@@ -28,92 +26,136 @@ Title.TextScaled = true
 Title.BackgroundTransparency = 1
 Title.Parent = MainFrame
 
--- Speed Boost Button
-SpeedBtn.Text = "Speed Boost"
-SpeedBtn.Size = UDim2.new(0, 160, 0, 40)
-SpeedBtn.Position = UDim2.new(0.1, 0, 0.25, 0)
-SpeedBtn.BackgroundColor3 = Color3.fromRGB(50, 150, 50) -- Xanh lá nhạt
-SpeedBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-SpeedBtn.Parent = MainFrame
-SpeedBtn.MouseButton1Click:Connect(function()
-    SpeedTab.Visible = not SpeedTab.Visible
+-- Farm Button
+FarmBtn.Text = "Farm"
+FarmBtn.Size = UDim2.new(0, 160, 0, 40)
+FarmBtn.Position = UDim2.new(0.1, 0, 0.3, 0)
+FarmBtn.BackgroundColor3 = Color3.fromRGB(50, 150, 50) -- Xanh lá nhạt
+FarmBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+FarmBtn.Parent = MainFrame
+FarmBtn.MouseButton1Click:Connect(function()
+    FarmTab.Visible = not FarmTab.Visible
 end)
 
--- Invisible Button
-InvisibleBtn.Text = "Invisible"
-InvisibleBtn.Size = UDim2.new(0, 160, 0, 40)
-InvisibleBtn.Position = UDim2.new(0.1, 0, 0.45, 0)
-InvisibleBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 150) -- Xanh dương nhạt
-InvisibleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-InvisibleBtn.Parent = MainFrame
-InvisibleBtn.MouseButton1Click:Connect(function()
-    InvisibleTab.Visible = not InvisibleTab.Visible
-end)
+-- Tab Farm
+local FarmTab = Instance.new("Frame")
+FarmTab.Size = UDim2.new(0, 200, 0, 250) -- Kích thước cho 3 tùy chọn
+FarmTab.Position = UDim2.new(0.5, -100, 0.5, -125)
+FarmTab.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+FarmTab.Visible = false
+FarmTab.Parent = ScreenGui
 
--- God Mode Button
-GodModeBtn.Text = "God Mode"
-GodModeBtn.Size = UDim2.new(0, 160, 0, 40)
-GodModeBtn.Position = UDim2.new(0.1, 0, 0.65, 0)
-GodModeBtn.BackgroundColor3 = Color3.fromRGB(150, 50, 50) -- Đỏ nhạt
-GodModeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-GodModeBtn.Parent = MainFrame
-GodModeBtn.MouseButton1Click:Connect(function()
-    GodModeTab.Visible = not GodModeTab.Visible
-end)
-
--- Tab Speed Boost
-local SpeedTab = Instance.new("Frame")
-SpeedTab.Size = UDim2.new(0, 200, 0, 100)
-SpeedTab.Position = UDim2.new(0.5, -100, 0.5, 50)
-SpeedTab.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-SpeedTab.Visible = false
-SpeedTab.Parent = ScreenGui
-
-local SpeedToggle = Instance.new("TextButton")
-SpeedToggle.Size = UDim2.new(0, 160, 0, 40)
-SpeedToggle.Position = UDim2.new(0, 20, 0, 30)
-SpeedToggle.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
-SpeedToggle.Text = "Toggle Speed"
-SpeedToggle.Parent = SpeedTab
-SpeedToggle.MouseButton1Click:Connect(function()
-    local character = game.Players.LocalPlayer.Character
-    if character then
-        local humanoid = character:FindFirstChild("Humanoid")
-        if humanoid then
-            humanoid.WalkSpeed = (humanoid.WalkSpeed == 16) and 50 or 16
-            SpeedToggle.Text = (humanoid.WalkSpeed == 16) and "Toggle Speed" or "Stop Speed"
+-- Auto Farm Option
+local AutoFarmOption = Instance.new("TextButton")
+AutoFarmOption.Text = "Auto Farm"
+AutoFarmOption.Size = UDim2.new(0, 160, 0, 30)
+AutoFarmOption.Position = UDim2.new(0, 20, 0, 20)
+AutoFarmOption.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
+AutoFarmOption.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoFarmOption.Parent = FarmTab
+local autoFarming = false
+AutoFarmOption.MouseButton1Click:Connect(function()
+    autoFarming = not autoFarming
+    AutoFarmOption.Text = autoFarming and "Stop Auto Farm" or "Auto Farm"
+    while autoFarming do
+        local character = game.Players.LocalPlayer.Character
+        if character and character:FindFirstChild("HumanoidRootPart") then
+            character.HumanoidRootPart.CFrame = character.HumanoidRootPart.CFrame + Vector3.new(math.random(-10, 10), 0, math.random(-10, 10))
+            wait(0.5)
+        else
+            autoFarming = false
+            AutoFarmOption.Text = "Auto Farm"
+            break
         end
     end
 end)
 
--- Tab Invisible
-local InvisibleTab = Instance.new("Frame")
-InvisibleTab.Size = UDim2.new(0, 200, 0, 100)
-InvisibleTab.Position = UDim2.new(0.5, -100, 0.5, 50)
-InvisibleTab.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-InvisibleTab.Visible = false
-InvisibleTab.Parent = ScreenGui
+-- Farm Bones Option
+local FarmBonesOption = Instance.new("TextButton")
+FarmBonesOption.Text = "Farm Bones"
+FarmBonesOption.Size = UDim2.new(0, 160, 0, 30)
+FarmBonesOption.Position = UDim2.new(0, 20, 0, 60)
+FarmBonesOption.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
+FarmBonesOption.TextColor3 = Color3.fromRGB(255, 255, 255)
+FarmBonesOption.Parent = FarmTab
+local farmingBones = false
+FarmBonesOption.MouseButton1Click:Connect(function()
+    farmingBones = not farmingBones
+    FarmBonesOption.Text = farmingBones and "Stop Farm Bones" or "Farm Bones"
+    while farmingBones do
+        local character = game.Players.LocalPlayer.Character
+        if character and character:FindFirstChild("HumanoidRootPart") then
+            -- Teleport to Haunted Castle (approximate coordinates)
+            character.HumanoidRootPart.CFrame = CFrame.new(-10149.78125, 142.135437, 5836.06934) -- Haunted Castle
+            wait(1) -- Wait for teleport
+            -- Find and attack all mobs in Haunted Castle
+            for _, v in pairs(game.Workspace.Enemies:GetChildren()) do
+                if v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+                    repeat
+                        character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 5)
+                        wait(0.1)
+                        game:GetService("VirtualUser"):CaptureController()
+                        game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+                        wait(0.1)
+                        game:GetService("VirtualUser"):Button1Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+                    until v.Humanoid.Health <= 0 or not farmingBones
+                end
+            end
+            wait(1) -- Wait before next loop
+        else
+            farmingBones = false
+            FarmBonesOption.Text = "Farm Bones"
+            break
+        end
+    end
+end)
 
-local InvisibleToggle = Instance.new("TextButton")
-InvisibleToggle.Size = UDim2.new(0, 160, 0, 40)
-InvisibleToggle.Position = UDim2.new(0, 20, 0, 30)
-InvisibleToggle.BackgroundColor3 = Color3.fromRGB(50, 50, 150)
-InvisibleToggle.Text = "Toggle Invisible"
-InvisibleToggle.Parent = InvisibleTab
--- Logic cho Invisible sẽ được thêm nếu bạn muốn
-
--- Tab God Mode
-local GodModeTab = Instance.new("Frame")
-GodModeTab.Size = UDim2.new(0, 200, 0, 100)
-GodModeTab.Position = UDim2.new(0.5, -100, 0.5, 50)
-GodModeTab.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-GodModeTab.Visible = false
-GodModeTab.Parent = ScreenGui
-
-local GodModeToggle = Instance.new("TextButton")
-GodModeToggle.Size = UDim2.new(0, 160, 0, 40)
-GodModeToggle.Position = UDim2.new(0, 20, 0, 30)
-GodModeToggle.BackgroundColor3 = Color3.fromRGB(150, 50, 50)
-GodModeToggle.Text = "Toggle God Mode"
-GodModeToggle.Parent = GodModeTab
--- Logic cho God Mode sẽ được thêm nếu bạn muốn
+-- Boss Quest Option
+local BossQuestOption = Instance.new("TextButton")
+BossQuestOption.Text = "Boss Quest"
+BossQuestOption.Size = UDim2.new(0, 160, 0, 30)
+BossQuestOption.Position = UDim2.new(0, 20, 0, 100)
+BossQuestOption.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
+BossQuestOption.TextColor3 = Color3.fromRGB(255, 255, 255)
+BossQuestOption.Parent = FarmTab
+local doingBossQuest = false
+BossQuestOption.MouseButton1Click:Connect(function()
+    doingBossQuest = not doingBossQuest
+    BossQuestOption.Text = doingBossQuest and "Stop Boss Quest" or "Boss Quest"
+    while doingBossQuest do
+        local character = game.Players.LocalPlayer.Character
+        if character and character:FindFirstChild("HumanoidRootPart") then
+            -- Teleport to Elite Hunter (Castle on the Sea)
+            character.HumanoidRootPart.CFrame = CFrame.new(-5412.012207, 314.174927, -2666.801758) -- Elite Hunter
+            wait(1) -- Wait for teleport
+            -- Simulate accepting quest (simplified, may need NPC interaction)
+            local eliteHunter = game.Workspace:FindFirstChild("Elite Hunter")
+            if eliteHunter then
+                character.HumanoidRootPart.CFrame = eliteHunter.HumanoidRootPart.CFrame * CFrame.new(0, 0, 5)
+                wait(1)
+                -- Placeholder for quest acceptance (may need game-specific script)
+                print("Accepted Elite Hunter quest")
+            end
+            -- Teleport to a sample boss (e.g., Darkbeard, approximate location)
+            character.HumanoidRootPart.CFrame = CFrame.new(3904.49976, 37.6849289, -1216.03662) -- Darkbeard
+            wait(1)
+            -- Attack boss (simplified)
+            local boss = game.Workspace.Enemies:FindFirstChild("Darkbeard")
+            if boss and boss:FindFirstChild("Humanoid") and boss.Humanoid.Health > 0 then
+                repeat
+                    character.HumanoidRootPart.CFrame = boss.HumanoidRootPart.CFrame * CFrame.new(0, 0, 5)
+                    wait(0.1)
+                    game:GetService("VirtualUser"):CaptureController()
+                    game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+                    wait(0.1)
+                    game:GetService("VirtualUser"):Button1Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+                until boss.Humanoid.Health <= 0 or not doingBossQuest
+            end
+            wait(1) -- Wait before next loop
+        else
+            doingBossQuest = false
+            BossQuestOption.Text = "Boss Quest"
+            break
+        end
+    end
+end)
