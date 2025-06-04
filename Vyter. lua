@@ -1,0 +1,119 @@
+-- Vyter Hub by Trần Tú (inspired by Redz Hub)
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local Title = Instance.new("TextLabel")
+local SpeedBtn = Instance.new("TextButton")
+local InvisibleBtn = Instance.new("TextButton")
+local GodModeBtn = Instance.new("TextButton")
+
+-- Parent GUI
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.Name = "VyterHubGUI"
+
+-- Main Frame
+MainFrame.Size = UDim2.new(0, 200, 0, 200)
+MainFrame.Position = UDim2.new(0.5, -100, 0.5, -100)
+MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30) -- Màu xám đậm
+MainFrame.Parent = ScreenGui
+
+UICorner.CornerRadius = UDim.new(0, 10)
+UICorner.Parent = MainFrame
+
+-- Title
+Title.Text = "Vyter"
+Title.Size = UDim2.new(1, 0, 0, 30)
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextScaled = true
+Title.BackgroundTransparency = 1
+Title.Parent = MainFrame
+
+-- Speed Boost Button
+SpeedBtn.Text = "Speed Boost"
+SpeedBtn.Size = UDim2.new(0, 160, 0, 40)
+SpeedBtn.Position = UDim2.new(0.1, 0, 0.25, 0)
+SpeedBtn.BackgroundColor3 = Color3.fromRGB(50, 150, 50) -- Xanh lá nhạt
+SpeedBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+SpeedBtn.Parent = MainFrame
+SpeedBtn.MouseButton1Click:Connect(function()
+    SpeedTab.Visible = not SpeedTab.Visible
+end)
+
+-- Invisible Button
+InvisibleBtn.Text = "Invisible"
+InvisibleBtn.Size = UDim2.new(0, 160, 0, 40)
+InvisibleBtn.Position = UDim2.new(0.1, 0, 0.45, 0)
+InvisibleBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 150) -- Xanh dương nhạt
+InvisibleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+InvisibleBtn.Parent = MainFrame
+InvisibleBtn.MouseButton1Click:Connect(function()
+    InvisibleTab.Visible = not InvisibleTab.Visible
+end)
+
+-- God Mode Button
+GodModeBtn.Text = "God Mode"
+GodModeBtn.Size = UDim2.new(0, 160, 0, 40)
+GodModeBtn.Position = UDim2.new(0.1, 0, 0.65, 0)
+GodModeBtn.BackgroundColor3 = Color3.fromRGB(150, 50, 50) -- Đỏ nhạt
+GodModeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+GodModeBtn.Parent = MainFrame
+GodModeBtn.MouseButton1Click:Connect(function()
+    GodModeTab.Visible = not GodModeTab.Visible
+end)
+
+-- Tab Speed Boost
+local SpeedTab = Instance.new("Frame")
+SpeedTab.Size = UDim2.new(0, 200, 0, 100)
+SpeedTab.Position = UDim2.new(0.5, -100, 0.5, 50)
+SpeedTab.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+SpeedTab.Visible = false
+SpeedTab.Parent = ScreenGui
+
+local SpeedToggle = Instance.new("TextButton")
+SpeedToggle.Size = UDim2.new(0, 160, 0, 40)
+SpeedToggle.Position = UDim2.new(0, 20, 0, 30)
+SpeedToggle.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
+SpeedToggle.Text = "Toggle Speed"
+SpeedToggle.Parent = SpeedTab
+SpeedToggle.MouseButton1Click:Connect(function()
+    local character = game.Players.LocalPlayer.Character
+    if character then
+        local humanoid = character:FindFirstChild("Humanoid")
+        if humanoid then
+            humanoid.WalkSpeed = (humanoid.WalkSpeed == 16) and 50 or 16
+            SpeedToggle.Text = (humanoid.WalkSpeed == 16) and "Toggle Speed" or "Stop Speed"
+        end
+    end
+end)
+
+-- Tab Invisible
+local InvisibleTab = Instance.new("Frame")
+InvisibleTab.Size = UDim2.new(0, 200, 0, 100)
+InvisibleTab.Position = UDim2.new(0.5, -100, 0.5, 50)
+InvisibleTab.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+InvisibleTab.Visible = false
+InvisibleTab.Parent = ScreenGui
+
+local InvisibleToggle = Instance.new("TextButton")
+InvisibleToggle.Size = UDim2.new(0, 160, 0, 40)
+InvisibleToggle.Position = UDim2.new(0, 20, 0, 30)
+InvisibleToggle.BackgroundColor3 = Color3.fromRGB(50, 50, 150)
+InvisibleToggle.Text = "Toggle Invisible"
+InvisibleToggle.Parent = InvisibleTab
+-- Logic cho Invisible sẽ được thêm nếu bạn muốn
+
+-- Tab God Mode
+local GodModeTab = Instance.new("Frame")
+GodModeTab.Size = UDim2.new(0, 200, 0, 100)
+GodModeTab.Position = UDim2.new(0.5, -100, 0.5, 50)
+GodModeTab.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+GodModeTab.Visible = false
+GodModeTab.Parent = ScreenGui
+
+local GodModeToggle = Instance.new("TextButton")
+GodModeToggle.Size = UDim2.new(0, 160, 0, 40)
+GodModeToggle.Position = UDim2.new(0, 20, 0, 30)
+GodModeToggle.BackgroundColor3 = Color3.fromRGB(150, 50, 50)
+GodModeToggle.Text = "Toggle God Mode"
+GodModeToggle.Parent = GodModeTab
+-- Logic cho God Mode sẽ được thêm nếu bạn muốn
