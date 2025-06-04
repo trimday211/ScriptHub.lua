@@ -1,4 +1,4 @@
--- Vyter Hub by Trần Tú (inspired by redz Hub - Farm tab updated)
+-- Vyter Hub by Trần Tú (inspired by redz Hub - Fixed Farm tab)
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
 local UICorner = Instance.new("UICorner")
@@ -10,7 +10,7 @@ ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 ScreenGui.Name = "VyterHubGUI"
 
 -- Main Frame
-MainFrame.Size = UDim2.new(0, 200, 0, 150) -- Điều chỉnh kích thước cho 3 tùy chọn
+MainFrame.Size = UDim2.new(0, 200, 0, 150)
 MainFrame.Position = UDim2.new(0.5, -100, 0.5, -75)
 MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30) -- Màu xám đậm
 MainFrame.Parent = ScreenGui
@@ -26,6 +26,14 @@ Title.TextScaled = true
 Title.BackgroundTransparency = 1
 Title.Parent = MainFrame
 
+-- Farm Tab (tạo trước khi gán sự kiện cho FarmBtn)
+local FarmTab = Instance.new("Frame")
+FarmTab.Size = UDim2.new(0, 200, 0, 250)
+FarmTab.Position = UDim2.new(0.5, -100, 0.5, -125)
+FarmTab.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+FarmTab.Visible = false -- Ẩn ban đầu
+FarmTab.Parent = ScreenGui
+
 -- Farm Button
 FarmBtn.Text = "Farm"
 FarmBtn.Size = UDim2.new(0, 160, 0, 40)
@@ -34,16 +42,8 @@ FarmBtn.BackgroundColor3 = Color3.fromRGB(50, 150, 50) -- Xanh lá nhạt
 FarmBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 FarmBtn.Parent = MainFrame
 FarmBtn.MouseButton1Click:Connect(function()
-    FarmTab.Visible = not FarmTab.Visible
+    FarmTab.Visible = not FarmTab.Visible -- Đảm bảo mở/đóng tab
 end)
-
--- Tab Farm
-local FarmTab = Instance.new("Frame")
-FarmTab.Size = UDim2.new(0, 200, 0, 250) -- Kích thước cho 3 tùy chọn
-FarmTab.Position = UDim2.new(0.5, -100, 0.5, -125)
-FarmTab.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-FarmTab.Visible = false
-FarmTab.Parent = ScreenGui
 
 -- Auto Farm Option
 local AutoFarmOption = Instance.new("TextButton")
@@ -85,10 +85,9 @@ FarmBonesOption.MouseButton1Click:Connect(function()
     while farmingBones do
         local character = game.Players.LocalPlayer.Character
         if character and character:FindFirstChild("HumanoidRootPart") then
-            -- Teleport to Haunted Castle (approximate coordinates)
-            character.HumanoidRootPart.CFrame = CFrame.new(-10149.78125, 142.135437, 5836.06934) -- Haunted Castle
-            wait(1) -- Wait for teleport
-            -- Find and attack all mobs in Haunted Castle
+            -- Teleport to Haunted Castle
+            character.HumanoidRootPart.CFrame = CFrame.new(-10149.78125, 142.135437, 5836.06934)
+            wait(1)
             for _, v in pairs(game.Workspace.Enemies:GetChildren()) do
                 if v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
                     repeat
@@ -101,7 +100,7 @@ FarmBonesOption.MouseButton1Click:Connect(function()
                     until v.Humanoid.Health <= 0 or not farmingBones
                 end
             end
-            wait(1) -- Wait before next loop
+            wait(1)
         else
             farmingBones = false
             FarmBonesOption.Text = "Farm Bones"
@@ -125,21 +124,18 @@ BossQuestOption.MouseButton1Click:Connect(function()
     while doingBossQuest do
         local character = game.Players.LocalPlayer.Character
         if character and character:FindFirstChild("HumanoidRootPart") then
-            -- Teleport to Elite Hunter (Castle on the Sea)
-            character.HumanoidRootPart.CFrame = CFrame.new(-5412.012207, 314.174927, -2666.801758) -- Elite Hunter
-            wait(1) -- Wait for teleport
-            -- Simulate accepting quest (simplified, may need NPC interaction)
+            -- Teleport to Elite Hunter
+            character.HumanoidRootPart.CFrame = CFrame.new(-5412.012207, 314.174927, -2666.801758)
+            wait(1)
             local eliteHunter = game.Workspace:FindFirstChild("Elite Hunter")
             if eliteHunter then
                 character.HumanoidRootPart.CFrame = eliteHunter.HumanoidRootPart.CFrame * CFrame.new(0, 0, 5)
                 wait(1)
-                -- Placeholder for quest acceptance (may need game-specific script)
                 print("Accepted Elite Hunter quest")
             end
-            -- Teleport to a sample boss (e.g., Darkbeard, approximate location)
-            character.HumanoidRootPart.CFrame = CFrame.new(3904.49976, 37.6849289, -1216.03662) -- Darkbeard
+            -- Teleport to Darkbeard
+            character.HumanoidRootPart.CFrame = CFrame.new(3904.49976, 37.6849289, -1216.03662)
             wait(1)
-            -- Attack boss (simplified)
             local boss = game.Workspace.Enemies:FindFirstChild("Darkbeard")
             if boss and boss:FindFirstChild("Humanoid") and boss.Humanoid.Health > 0 then
                 repeat
@@ -151,7 +147,7 @@ BossQuestOption.MouseButton1Click:Connect(function()
                     game:GetService("VirtualUser"):Button1Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
                 until boss.Humanoid.Health <= 0 or not doingBossQuest
             end
-            wait(1) -- Wait before next loop
+            wait(1)
         else
             doingBossQuest = false
             BossQuestOption.Text = "Boss Quest"
